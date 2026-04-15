@@ -74,7 +74,7 @@ sudo python3 topology.py
 mininet> h1 ping h3 -c 10
 ```
 
-Expected: 0% packet loss. First ping has higher latency (~100ms) as the controller learns the MAC and installs flow rules. Subsequent pings drop to <1ms as packets are forwarded directly by the switch.
+Expected: 0% packet loss. First ping has higher latency as the controller learns the MAC and installs flow rules. Subsequent pings drop to less than 1ms as packets are forwarded directly by the switch.
 
 ### Scenario B — TCP Throughput (iperf)
 
@@ -82,17 +82,17 @@ Expected: 0% packet loss. First ping has higher latency (~100ms) as the controll
 mininet> iperf h1 h3
 ```
 
-Expected: ~80–90 Mbps sustained throughput. The POX terminal shows TX/RX Mbps jumping on the trunk-facing ports of both s1 and s2.
+Expected: Around 80–90 Mbps sustained throughput. The POX terminal shows TX/RX Mbps jumping on the trunk-facing ports of both s1 and s2.
 
 ---
 
 ## Proof of Execution
 
-### Scenario A — Ping (h1 → h3)
+### Scenario A: Ping (h1 → h3)
 
 ![Ping output](screenshots/pinging%20h3%20from%20h1_pox.png)
 
-### Scenario B — iperf (h1 → h3)
+### Scenario B: iperf (h1 → h3)
 
 ![iperf output](screenshots/iperf_h1_h3.png)
 
@@ -102,10 +102,3 @@ Expected: ~80–90 Mbps sustained throughput. The POX terminal shows TX/RX Mbps 
 
 ---
 
-
-## References
-
-- [POX Documentation](https://noxrepo.github.io/pox-doc/html/)
-- [Mininet Walkthrough](http://mininet.org/walkthrough/)
-- [OpenFlow 1.0 Specification](https://opennetworking.org/wp-content/uploads/2013/04/openflow-spec-v1.0.0.pdf)
-- Kurose & Ross, *Computer Networking: A Top-Down Approach*
