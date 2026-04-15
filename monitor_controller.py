@@ -42,9 +42,9 @@ class NetworkMonitor(object):
         self.connections[dpid] = con
 
         # table-miss: match all → send to controller
-        msg          = of.ofp_flow_mod()
+        msg = of.ofp_flow_mod()
         msg.priority = 0
-        msg.match    = of.ofp_match()
+        msg.match = of.ofp_match()
         msg.actions.append(of.ofp_action_output(port=of.OFPP_CONTROLLER))
         con.send(msg)
 
@@ -59,10 +59,10 @@ class NetworkMonitor(object):
     # ── Packet-in — learning switch + flow install ────────────────────────────
 
     def _handle_PacketIn(self, event):
-        dpid    = event.dpid
-        con     = event.connection
+        dpid = event.dpid
+        con = event.connection
         in_port = event.port
-        pkt     = event.parsed
+        pkt = event.parsed
 
         if not pkt.parsed:
             return
@@ -79,18 +79,18 @@ class NetworkMonitor(object):
 
         if out_port != of.OFPP_FLOOD:
             # install flow rule — idle_timeout=10s so stale entries expire
-            msg              = of.ofp_flow_mod()
-            msg.priority     = 1
+            msg = of.ofp_flow_mod()
+            msg.priority = 1
             msg.idle_timeout = 10
             msg.hard_timeout = 120
-            msg.match        = of.ofp_match.from_packet(pkt, in_port)
+            msg.match = of.ofp_match.from_packet(pkt, in_port)
             msg.actions.append(of.ofp_action_output(port=out_port))
-            msg.data         = event.ofp
+            msg.data = event.ofp
             con.send(msg)
         else:
             # flood
-            msg         = of.ofp_packet_out()
-            msg.data    = event.ofp
+            msg = of.ofp_packet_out()
+            msg.data = event.ofp
             msg.in_port = in_port
             msg.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
             con.send(msg)
